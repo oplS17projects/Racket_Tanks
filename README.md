@@ -1,101 +1,56 @@
-# Project Title Goes Here (10 words maximum)
+# Racket Tanks
 
 ### Statement
-Describe your project. Why is it interesting? Why is it interesting to you personally? What do you hope to learn? 
+A classic top-down shooting game which will  use recursion, filtering, object orientation, and other techniques to control the action.
 
 ### Analysis
-Explain what approaches from class you will bring to bear on the project.
+Below is an outline of the various techniques that will be implemented in the design of the game:
 
-Be explicit about the techiques from the class that you will use. For example:
+-Data Abstraction: Data will be abstracted into basic objects with similar factors, i.e. dimensions, speed, location, active status, and so on. This will allow objects like tanks, bullets, and enemies to be handled similarly.
+- Filtering: As objects are created, and destroyed, it will be necessary to ensure that objects that are no longer necessary are removed. This is one excellent way to use a filter to ensure that extraneous objects are deleted.
+-Recursion: Updating the location information, and status of each of the objects will be most easily handled with recursive functions that will go through their relevant lists.
+-Expression evaluation: As each of the objects move around the screen, their various maneuvers and collisions will be calculated using expression evaluation to determine changes.
 
-- Will you use data abstraction? How?
-- Will you use recursion? How?
-- Will you use map/filter/reduce? How? 
-- Will you use object-orientation? How?
-- Will you use functional approaches to processing your data? How?
-- Will you use state-modification approaches? How? (If so, this should be encapsulated within objects. `set!` pretty much should only exist inside an object.)
-- Will you build an expression evaluator, like we did in the symbolic differentatior and the metacircular evaluator?
-- Will you use lazy evaluation approaches?
-
-The idea here is to identify what ideas from the class you will use in carrying out your project. 
-
-**Your project will be graded, in part, by the extent to which you adopt approaches from the course into your implementation, _and_ your discussion about this.**
-
-### External Technologies
-You are encouraged to develop a project that connects to external systems. For example, this includes systems that:
-
-- retrieve information or publish data to the web
-- generate or process sound
-- control robots or other physical systems
-- interact with databases
-
-If your project will do anything in this category (not only the things listed above!), include this section and discuss.
 
 ### Data Sets or other Source Materials
-If you will be working with existing data, where will you get those data from? (Dowload from a website? Access in a database? Create in a simulation you will build? ...)
 
-How will you convert your data into a form usable for your project?  
+Source Materials:
 
-If you are pulling data from somewhere, actually go download it and look at it before writing the proposal. Explain in some detail what your plan is for accomplishing the necessary processing.
+Many of the objects that will be used in this game come from pre-existing images, namely sprites, that are commonplace around the Internet. This approach is to allow for a maximum amount of customizability to the game oddly enough, as using these will allow a player to select from various battlefields, tanks, and going forward, potentially different weapons, and enemies.
 
-If you are using some other starting materials, explain what they are. Basically: anything you plan to use that isn't code.
+Credit due to the following creators of content used:
+
+Tank sprites courtesy of user Zironid_n at www.freegameart.org
 
 ### Deliverable and Demonstration
-Explain exactly what you'll have at the end. What will it be able to do at the live demo?
 
-What exactly will you produce at the end of the project? A piece of software, yes, but what will it do? Here are some questions to think about (and answer depending on your application).
-
-Will it run on some data, like batch mode? Will you present some analytical results of the processing? How can it be re-run on different source data?
-
-Will it be interactive? Can you show it working? This project involves a live demo, so interactivity is good.
+Our goal is to ultimately deliver a game that will be able to be demonstrated, and enjoyed well after this semester comes to a close. In terms of detail, we hope the game will permit one or two players to play against each other or the computer individually or cooperatively. This will is to all be determined by a menu that will launch when the game is first run. 
 
 ### Evaluation of Results
-How will you know if you are successful? 
-If you include some kind of _quantitative analysis,_ that would be good.
+
+Needless to say, a smooth game experience is the base requirement for this, and that will be a success. This entails the game not only playing correctly, but the menu functionality, scoring, and enemy action to correctly work, as well as all relative paths to external mediums, such that the game can be moved to a different system and still be played.
 
 ## Architecture Diagram
-Upload the architecture diagram you made for your slide presentation to your repository, and include it in-line here.
 
-Create several paragraphs of narrative to explain the pieces and how they interoperate.
+Section under Construction!
 
 ## Schedule
-Explain how you will go from proposal to finished product. 
-
-There are three deliverable milestones to explicitly define, below.
-
-The nature of deliverables depend on your project, but may include things like processed data ready for import, core algorithms implemented, interface design prototyped, etc. 
-
-You will be expected to turn in code, documentation, and data (as appropriate) at each of these stages.
-
-Write concrete steps for your schedule to move from concept to working system. 
-
 ### First Milestone (Sun Apr 9)
-Which portion of the work will be completed (and committed to Github) by this day? 
+Jeremy's Objectives:
+Core algorithms for file access, movement vectors, collisions, and object interactions should be in place. 
 
 ### Second Milestone (Sun Apr 16)
-Which portion of the work will be completed (and committed to Github) by this day?  
+Jeremy's Objectives:
+Any remaining additons to keyboard commands should be functional, and collisions between terrrain, tanks, bullets, and enemies should be handled. Additional keyboard commands to control the menu should be in place. 
 
 ### Public Presentation (Mon Apr 24, Wed Apr 26, or Fri Apr 28 [your date to be determined later])
-What additionally will be completed before the public presentation?
+Jeremy's Objectives:
+Full game interface should be functional. Additional functions for other objects, possibly adding in aircraft, pickups, and interactive terrain, though, the primary goal should be a fully functional game.
 
 ## Group Responsibilities
-Here each group member gets a section where they, as an individual, detail what they are responsible for in this project. Each group member writes their own Responsibility section. Include the milestones and final deliverable.
-
-Please use Github properly: each individual must make the edits to this file representing their own section of work.
-
-**Additional instructions for teams of three:** 
-* Remember that you must have prior written permission to work in groups of three (specifically, an approved `FP3` team declaration submission).
-* The team must nominate a lead. This person is primarily responsible for code integration. This work may be shared, but the team lead has default responsibility.
-* The team lead has full partner implementation responsibilities also.
-* Identify who is team lead.
-
-In the headings below, replace the silly names and GitHub handles with your actual ones.
-
-### Susan Scheme @susanscheme
-will write the....
+### Jeremy Joubert @joubs8783
+will write the code centered on file loading, object control, and collisions.
+I will be responsible for ensuring that files that are needed are able to be properly loaded, keyboard inputs funtioning as intended, and collisions resulting in the proper object(s) being destroyed and players being awarded points/losing lives as needed. This list may grow as time moves forward, but this is the current expectation.
 
 ### Leonard Lambda @lennylambda
 will work on...
-
-### Frank Funktions @frankiefunk 
-Frank is team lead. Additionally, Frank will work on...   
