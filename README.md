@@ -32,7 +32,10 @@ Needless to say, a smooth game experience is the base requirement for this, and 
 
 ## Architecture Diagram
 
-Section under Construction!
+![Project Architecture](Project Architecture.png)
+
+As seen above, external to the Racket script are the keyboard strokes, as well as files that are externally sourced for sound and sprite images, all of which are fed into the Game Interface. This is internally referred to as a world by the 2hdtp/universe library, and serves as the central "hub" for each element of the game. 
+The game world is comprised of, and controls the Game Objects, Options Menu, and Triggered Effects objects. Each of these subsets of objects are themselves comprised of objects. Game Objects are comprised of player tanks, terrain and obstacles that will be in the battlefield, the battlefield/background, the list of projectiles, and the score for each player. Changes in these objects are handled by the Triggered Effects, which is where impacts, animations, sounds, and score updates will be determined. As needed, these changes are then fed back to the Game interface, and in turn the game objects, in order to then update them accordingly.
 
 ## Schedule
 ### First Milestone (Sun Apr 9)
