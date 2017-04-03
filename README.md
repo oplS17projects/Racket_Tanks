@@ -37,15 +37,24 @@ Section under Construction!
 ## Schedule
 ### First Milestone (Sun Apr 9)
 Jeremy's Objectives:
-Core algorithms for file access, movement vectors, collisions, and object interactions should be in place. 
+Core algorithms for file access, movement vectors, collisions, and object interactions should be in place.
+
+Zheondre's Objectives: 
+Enemy implementations, level development, score board for health and ammunition. 
 
 ### Second Milestone (Sun Apr 16)
 Jeremy's Objectives:
 Any remaining additons to keyboard commands should be functional, and collisions between terrrain, tanks, bullets, and enemies should be handled. Additional keyboard commands to control the menu should be in place. 
 
+Zheondre's Objectives
+Try to add pausing, level check points, reset, and game over features. Have diffifulty settins working.
+
 ### Public Presentation (Mon Apr 24, Wed Apr 26, or Fri Apr 28 [your date to be determined later])
 Jeremy's Objectives:
 Full game interface should be functional. Additional functions for other objects, possibly adding in aircraft, pickups, and interactive terrain, though, the primary goal should be a fully functional game.
+
+Zheondre Objectives: 
+Levels should be implemented, diffifulty, score board should be displayed with amount of enemies killed, enemies would either follow and attack or drive randomly and shoot, and a working menu 
 
 ## Group Responsibilities
 ### Jeremy Joubert @joubs8783

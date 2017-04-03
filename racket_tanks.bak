@@ -1,0 +1,81 @@
+#lang racket
+(require lang/posn)
+(require 2htdp/image)
+(require 2htdp/universe)
+
+;Title Text
+(define title
+  (text/font "Tanks"
+             72
+             "DarkRed"
+             #f
+             "script"
+             "normal"
+             "bold"
+             #t))
+
+;Body of Tank
+(define (tank-body player)
+  (rectangle 100
+             50
+             "solid"
+             (if (= player 1)
+                 "olive"
+                 "Brown")))
+
+;Barrel of Tank
+(define tank-barrel
+  (rectangle 50
+             8
+             "solid"
+             "black"))
+
+;Turret of Tank
+(define (tank-turret player)
+  (polygon (list (make-pulled-point 1/2 20 0 0 1/2 -20)
+                 (make-posn -10 20)
+                 (make-pulled-point 1/2 -20 50 10 1/2 20)
+                 (make-pulled-point 1/2 -20 50 -10 1/2 20)
+                 (make-posn -10 -20))
+           "solid"
+           (if (= player 1)
+               "darkolivegreen"
+               "Chocolate")))
+
+;Function to create tank from above parts
+(define (make-tank type)
+  (overlay/offset (tank-turret type) 10 0
+           (overlay/offset tank-barrel -30 0 (tank-body type))))
+
+;Background image
+(define background (bitmap/file "battlefield.png"))
+
+;functions to create player tank objects
+(define player1 (make-tank 1))
+(define player2 (make-tank 2))
+
+;Functions to simplify placement
+(define center 250)
+
+;function to generate a scene
+(define createScene (place-image background
+                                 center
+                                 center
+                                 (empty-scene (image-width background)
+                                              (image-height background))))
+
+(define sample (place-images (list (rotate 90 player1)
+                                   title
+                                   (rotate 270 player2))
+                             (list (make-posn (- center 150) center)
+                                   (make-posn center center)
+                                   (make-posn (+ center 150) center))
+                             createScene))
+
+;Comment out commands that were tested for various uses (kept for format reminding)
+;(save-image sample "sample.png")
+;(image-height player1)
+;(image-width player2)
+;(flip-horizontal player2)
+;(scale .5 player1)
+;(rotate 45 player2)
