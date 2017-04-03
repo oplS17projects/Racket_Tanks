@@ -61,5 +61,5 @@ Levels should be implemented, diffifulty, score board should be displayed with a
 will write the code centered on file loading, object control, and collisions.
 I will be responsible for ensuring that files that are needed are able to be properly loaded, keyboard inputs funtioning as intended, and collisions resulting in the proper object(s) being destroyed and players being awarded points/losing lives as needed. This list may grow as time moves forward, but this is the current expectation.
 
-### Leonard Lambda @lennylambda
-will work on...
+### Angel Zheondre Calcano @zheondre
+I will be responsible of making sure of completing the objectives I mentioned above are completed. 
