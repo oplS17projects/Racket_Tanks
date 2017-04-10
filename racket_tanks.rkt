@@ -3,6 +3,9 @@
 (require 2htdp/image)
 (require 2htdp/universe)
 
+(require racket/include)
+;(include "foo.rkt")
+
 ; As with previous file, images for the background and tank will be needed here
 ; to practice with manipulating and animating the resulting images. The
 ; functions below are for this task.
