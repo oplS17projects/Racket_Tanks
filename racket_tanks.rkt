@@ -10,109 +10,143 @@
 ; Create a relative path to current image folder
 (define ImgDir (build-path (current-directory) "GameImgs"))
 
-; Define the image to be used for the background
-(define Background (bitmap/file (build-path ImgDir "Battlefield1.png")))
+; Define game resources
+(define background (bitmap/file (build-path ImgDir "Battlefield1.png")))
+(define player1-sprite
+  (scale 1.5 (rotate 90 (bitmap/file (build-path ImgDir "player1tank.png")))))
+(define player2-sprite
+  (scale 1.5 (rotate 90 (bitmap/file (build-path ImgDir "player2tank.png")))))
 
 ; Define the variables based on the size of the play screen
-(define WIDTH (image-width Background))
-(define HEIGHT (image-height Background))
+(define WIDTH (image-width background))
+(define HEIGHT (image-height background))
 
-;; Initial tank speed
-(define Tank_Spd 0)
+;define game entities
+(define terrain '())
+(define projectiles '())
+(define objs '())
 
-;; A Tank is a (make-tank Posn Number Number)
-(define-struct tank (posn speed angle))
+;;Entity constructor
+(define (make-entity sprite pos speed direction)
+  (define (set-sprite new-sprite) (set! sprite new-sprite))
+  (define (set-x xpos) (set! pos (cons xpos (cdr pos))))
+  (define (set-y ypos) (set! pos (cons (car pos) ypos)))
+  (define (set-pos new-pos) (set! pos new-pos))
+  (define (set-spd spd) (set! speed spd))
+  (define (set-dir angle) (set! direction angle))
+  (define intact #t)
+  (define (destroy) (set! intact #f))
+  (define (initialize pos) (begin (set-pos pos) (set! intact #t)))
 
-;; A World is a (make-world player)
-(define-struct world (player1))
-
-;; Takes an angle in degrees and returns a directional Posn
-;;   Accounts for the downward-increasing Y-axis of scenes/images
-;;   by multiplying the posn-y by -1
-(define (angle->posn a)
-  (make-posn (inexact->exact (round (cos (* a pi 1/180))))
-             (* -1 (inexact->exact (round (sin (* a pi 1/180)))))))
-
-;; Adds two Posns together.
-(define (add-posns a b)
-  (make-posn (modulo (+ (posn-x a) (posn-x b)) WIDTH)
-             (modulo (+ (posn-y a) (posn-y b)) HEIGHT)))
-
-;; Multiplies a Posn by a given number.
-(define (posn* p n)
-  (make-posn (modulo (* (posn-x p) n) WIDTH)
-             (modulo (* (posn-y p) n) HEIGHT)))
-
-;; Checks if two posns are equal.
-(define (posn=? a b)
-  (and (= (posn-x a) (posn-x b))
-       (= (posn-y a) (posn-y b))))
-
-;; Rotates tank within the world.
-(define (turn deg w)
-  (make-world (make-tank (tank-posn (world-player1 w))
-                         (tank-speed (world-player1 w))
-                         (modulo (+ deg (tank-angle (world-player1 w))) 360))))
-
-;; Increases the tank speed factor
-(define (accelerate w)
-  (make-world (make-tank (tank-posn (world-player1 w))
-                         (if (>= 7 (tank-speed (world-player1 w)))
-                             (+ 7 (tank-speed (world-player1 w)))
-                             (+ 0 (tank-speed (world-player1 w))))
-                         (tank-angle (world-player1 w)))))
-
-;; Moves the tank forward in the direction faced
-(define (move-tank t)
-  (make-tank (add-posns (tank-posn t)
-                        (posn* (angle->posn (tank-angle t))
-                               (tank-speed t)))
-             (cond ((zero? (tank-speed t)) 0)
-                   ((> (tank-speed t) 0) (- (tank-speed t) 1))
-                   (else (+ (tank-speed t) 1)))
-             (tank-angle t)))
-
-;; Takes a world, moves the tank.
-(define (tock w)
-  (make-world (move-tank (world-player1 w))))
+  (define (dispatch obj)
+    (cond ((eq? obj 'sprite) sprite)
+          ((eq? obj 'x) (car pos))
+          ((eq? obj 'y) (cdr pos))
+          ((eq? obj 'pos) pos)
+          ((eq? obj 'set-x) set-x)
+          ((eq? obj 'set-y) set-y)
+          ((eq? obj 'set-pos) set-pos)
+          ((eq? obj 'speed) speed)
+          ((eq? obj 'set-spd) set-spd)
+          ((eq? obj 'dir) direction)
+          ((eq? obj 'set-dir) set-dir)
+          ((eq? obj 'intact?) intact)
+          ((eq? obj 'destroy) (set! intact #f))
+          (else (begin (print "Unknown value") obj))))
   
-;; Controls:
-;; - up/w     move forward
-;; - left/a   turn left
-;; - right/d  turn right
-(define (key-handler w k)
+  (set! objs (append objs (list dispatch)))
+  
+  dispatch)
+
+;;Player Class
+(define (make-player sprite pos)
+  
+  (define entity (make-entity sprite pos 0 0))
+  
+  (define (move)
+    (cond ((and (> (entity 'x) 0) (< (entity 'x) WIDTH))
+           ((entity 'set-x) (+ (entity 'x)
+                               (inexact->exact (round (* (entity 'speed) (sin (entity 'dir)))))
+                               ))))
+    (cond ((and (> (entity 'y) 0) (< (entity 'y) HEIGHT))
+           ((entity 'set-y) (+ (entity 'y)
+                               (inexact->exact (round (* (entity 'speed) (cos (entity 'dir)))))
+                               )))))
+
+  (define (accelerate value)
+    (cond ((and (< (entity 'speed) 5) (> (entity 'speed) -5))
+           ((entity 'set-spd) (+ (entity 'speed) value)))))
+
+  (define (turn-tank value)
+    (if (> (+ (entity 'dir) value) 360)
+        (- ((entity 'set-dir) (+ (entity 'dir) value)) 360)
+        ((entity 'set-dir) (+ (entity 'dir) value))))
+
+  (define (coast)
+    (cond ((> (entity 'speed) 0) (accelerate -1))
+          ((< (entity 'speed) 0) (accelerate 1))
+          (else (accelerate 0))))
+
+  (define (update dt)
+    (move))
+
+  (define (dispatch obj)
+    (cond ((eq? obj 'spd-up) (accelerate 1))
+          ((eq? obj 'slw-dwn) (accelerate -1))
+          ((eq? obj 'turn-left) (turn-tank 12))
+          ((eq? obj 'turn-right) (turn-tank -12))
+          ((eq? obj 'stop-turn) (turn-tank 0))
+          ((eq? obj 'coast) coast)
+          (else (entity obj))))
+  dispatch)
+
+(define player1 (make-player player1-sprite (cons 20 20)))
+(define player2 (make-player player1-sprite (cons 0 0)))
+
+(define (handle-key-press wrld key)
   (cond
-    [(or (key=? k "w") (key=? k "up")) (accelerate w)]
-    [(or (key=? k "a") (key=? k "left"))  (turn  45 w)]
-    [(or (key=? k "d") (key=? k "right")) (turn -45 w)]
-    [else w]))
+    [(key=? key "w")(player1 'spd-up)]
+    [(key=? key "s") (player1 'slw-dwn)]
+    [(key=? key "a") (player1 'turn-left)]
+    [(key=? key "d") (player1 'turn-right)]
+    [else wrld]))
 
-;; The tank image file
-(define Tank_Img
-  (rotate
-   90
-   (bitmap/file (build-path ImgDir "playertank.png"))))
+(define (handle-key-release wrld key)
+  (cond
+    [(key=? key "w")(player1 'coast)]
+    [(key=? key "s") (player1 'coast)]
+    [(key=? key "a") (player1 'stop-turn)]
+    [(key=? key "d") (player1 'stop-turn)]
+    [else wrld]))
 
-;; Places a tank onto a scene.
-(define (place-player player scene)
-  (place-image (rotate (tank-angle player) Tank_Img)
-               (posn-x (tank-posn player))
-               (posn-y (tank-posn player))
-               scene))
+(define (destroyed? obj)
+  (eq? (obj 'intact?) #f))
 
-;; Draws the world
-(define (display w)
-  (place-player (world-player1 w)
-                Background))
+;; Rendering Initialization
+(define objs-pos (map (λ (entity) (make-posn (entity 'x) (entity 'y))) (filter destroyed? objs)))
+(define objs-sprites (map (λ (entity) (entity 'sprite)) (filter destroyed? objs)))
+(define screen '())
 
-;; Starting world
-(define gameworld (make-world (make-tank (make-posn (* WIDTH 0.5)
-                                                    (* HEIGHT 0.6))
-                                         Tank_Spd
-                                         0)))
-;; Initialize gameworld interface
-(big-bang gameworld
-          (on-tick tock)
-          (on-key key-handler)
-          (on-draw display)
-          (state false))
+(define (rendergame x)
+  (set! objs-pos (map (λ (entity) (make-posn (entity 'x) (entity 'y))) (filter destroyed? objs)))
+  (set! objs-sprites (map (λ (entity) (entity 'sprite)) (filter destroyed? objs)))
+  (set! screen (place-images objs-sprites objs-pos background))
+  screen)
+
+(define (game-start)
+  (begin (big-bang 0
+                   (on-key handle-key-press)
+                   (on-release handle-key-release)
+                   (to-draw rendergame)))
+  (error "error"))
+
+(define (change wrld key)
+  (cond [(key=? key " ") ((game-start))]
+        [else wrld]))
+
+(define (rendertitle x)
+  (bitmap/file (build-path ImgDir "Title_Splash.jpg")))
+
+(big-bang 0
+          (on-key change)
+          (to-draw rendertitle))  
