@@ -9,21 +9,145 @@
 
 ;; Game values
 
-; Create a relative path to current image folder
-(define ImgDir (build-path (current-directory) "GameImgs"))
-
-; Define game resources
-(define background (bitmap/file (build-path ImgDir "Battlefield1.png")))
-(define player1-sprite
-  (scale 2 (bitmap/file (build-path ImgDir "player1tank.png"))))
-(define player2-sprite
-  (scale 2 (bitmap/file (build-path ImgDir "player2tank.png"))))
-(define bullet-sprite
-  (scale 2 (bitmap/file (build-path ImgDir "shot.png"))))
-
 ; Define the variables based on the size of the play screen
 (define WIDTH 1440)
 (define HEIGHT 900)
+
+; Relative path to image folder
+(define ImgDir (build-path (current-directory) "GameImgs"))
+
+; Screen Backgrounds
+(define splash-img (bitmap/file (build-path ImgDir "Main_bkgrnd.jpg")))
+(define ctrl-splash (bitmap/file (build-path ImgDir "Ctrl_bkgrnd.jpg")))
+(define background (bitmap/file (build-path ImgDir "Battle_bkgrnd.png")))
+; Title Screen Main Text
+(define splash-txt (bitmap/file (build-path ImgDir "Title_text.png")))
+(define players-txt (scale .5 (bitmap/file (build-path ImgDir "NP_1text.png"))))
+(define playerssel-txt (scale .35 (bitmap/file (build-path ImgDir "NP_2text.png"))))
+(define attack-txt (scale .5 (bitmap/file (build-path ImgDir "Attack_text.png"))))
+(define controls-txt (scale .5 (bitmap/file (build-path ImgDir "Controls_text.png"))))
+(define acc-txt (scale .3 (bitmap/file (build-path ImgDir "Accel_text.png"))))
+(define rev-txt (scale .3 (bitmap/file (build-path ImgDir "Rev_text.png"))))
+(define tl-txt (scale .3 (bitmap/file (build-path ImgDir "TL_text.png"))))
+(define tr-txt (scale .3 (bitmap/file (build-path ImgDir "TR_text.png"))))
+(define fire-txt (scale .3 (bitmap/file (build-path ImgDir "Fire_text.png"))))
+(define esc-txt (scale .3 (bitmap/file (build-path ImgDir "Esc_text.png"))))
+(define p1-txt (scale .4 (bitmap/file (build-path ImgDir "P1_text.png"))))
+(define p2-txt (scale .4 (bitmap/file (build-path ImgDir "P2_text.png"))))
+(define main-txt (scale .4 (bitmap/file (build-path ImgDir "Main_text.png"))))
+(define w-txt (scale .3 (bitmap/file (build-path ImgDir "W_text.png"))))
+(define a-txt (scale .3 (bitmap/file (build-path ImgDir "A_text.png"))))
+(define s-txt (scale .3 (bitmap/file (build-path ImgDir "S_text.png"))))
+(define d-txt (scale .3 (bitmap/file (build-path ImgDir "D_text.png"))))
+(define spc-txt (scale .3 (bitmap/file (build-path ImgDir "Spc_text.png"))))
+(define up-txt (scale .3 (bitmap/file (build-path ImgDir "Up_text.png"))))
+(define down-txt (scale .3 (bitmap/file (build-path ImgDir "Down_text.png"))))
+(define left-txt (scale .3 (bitmap/file (build-path ImgDir "Left_text.png"))))
+(define right-txt (scale .3 (bitmap/file (build-path ImgDir "Right_text.png"))))
+(define rctrl-txt (scale .3 (bitmap/file (build-path ImgDir "R_ctrl_text.png"))))
+
+; Title Screen Selectors
+(define np_selector (rectangle 40 60 "outline" "red"))
+(define gm_selector (rectangle 200 10 "solid" "red"))
+(define ctrl_selector (rectangle 100 10 "solid" "red"))
+; Player1 Sprite
+(define player1-sprite (scale 2 (bitmap/file (build-path ImgDir "P1_tank.png"))))
+; Player2 Sprite
+(define player2-sprite (scale 2 (bitmap/file (build-path ImgDir "P2_tank.png"))))
+; Bullet Sprite
+(define bullet-sprite (scale 2 (bitmap/file (build-path ImgDir "shot.png"))))
+
+; Default Game Settings
+(define p1-strtpos (cons 360 450))
+(define p2-strtpos (cons 1080 450))
+
+(define ticks 0)
+(define seconds 1)
+(define game-over #f)
+; Screen currently displayed
+(define menu-c #t)
+(define menu-p #f)
+(define menu-a #f)
+
+(define two-players #f)
+
+(define menu-scrn #t)
+(define ctrl-scrn #f)
+(define play-scrn #f)
+
+; Assemble Title Screen Components
+(define (player-selector-posn)
+  (if two-players
+      (make-posn 780 650)
+      (make-posn 650 650)))
+
+(define (window-selection)
+  (cond (menu-c (make-posn 720 520))
+        (menu-p (make-posn 720 620))
+        (else (make-posn 720 795))))
+
+(define (game-scrn)
+  (place-images (list splash-txt
+                      controls-txt
+                      players-txt
+                      playerssel-txt
+                      attack-txt
+                      np_selector
+                      gm_selector)
+                (list (make-posn 720 300)
+                      (make-posn 720 475)
+                      (make-posn 720 575)
+                      (make-posn 720 650)
+                      (make-posn 720 750)
+                      (player-selector-posn)
+                      (window-selection))
+                splash-img))
+
+(define (control-scrn)
+  (place-images (list splash-txt
+                      p1-txt
+                      p2-txt
+                      acc-txt
+                      w-txt
+                      up-txt
+                      rev-txt
+                      s-txt
+                      down-txt
+                      tl-txt
+                      a-txt
+                      left-txt
+                      tr-txt
+                      d-txt
+                      right-txt
+                      fire-txt
+                      spc-txt
+                      rctrl-txt
+                      esc-txt
+                      main-txt
+                      ctrl_selector)
+                (list (make-posn 720 100)
+                      (make-posn 360 275)
+                      (make-posn 1180 275)
+                      (make-posn 720 350)
+                      (make-posn 360 350)
+                      (make-posn 1180 350)
+                      (make-posn 720 425)
+                      (make-posn 360 425)
+                      (make-posn 1180 425)
+                      (make-posn 720 500)
+                      (make-posn 360 500)
+                      (make-posn 1180 500)
+                      (make-posn 720 575)
+                      (make-posn 360 575)
+                      (make-posn 1180 575)
+                      (make-posn 720 650)
+                      (make-posn 360 650)
+                      (make-posn 1180 650)
+                      (make-posn 720 725)
+                      (make-posn 80 850)
+                      (make-posn 80 885))
+                ctrl-splash))
+                      
 
 ; General functions
 (define (deg-to-rad x)
@@ -142,8 +266,8 @@
   dispatch)
 
 ;; Create Player objects
-(define player1 (make-player player1-sprite (cons 360 450) 0 1))
-(define player2 (make-player player2-sprite (cons 1080 450) 180 2))
+(define player1 (make-player player1-sprite p1-strtpos 0 1))
+(define player2 (make-player player2-sprite p2-strtpos 180 2))
 
 ;; Projectile Class
 (define (make-projectile owner)
@@ -216,10 +340,6 @@
                        #f)) projectiles))
 
 ;; Update screen
-(define ticks 0)
-(define seconds 1)
-(define game-over #f)
-
 (define (update dt)
   (begin
     ((player1 'update))
@@ -229,79 +349,92 @@
     (set! seconds (+ 1/28 seconds))
     (check-collisions))
   (clean-up))
-    
+
+; Handle key strokes according to current screen
 (define (handle-key-press wrld key)
-  (cond
-    [(key=? key "w")(player1 'spd-up)]
-    [(key=? key "s") (player1 'slw-dwn)]
-    [else wrld])
-  (cond
-    [(key=? key "up") (player2 'spd-up)]
-    [(key=? key "down") (player2 'slw-dwn)]
-    [else wrld])
-  (cond
-    [(key=? key "a") (player1 'turn-left)]
-    [(key=? key "d") (player1 'turn-right)]
-    [else wrld])
-  (cond
-    [(key=? key "left") (player2 'turn-left)]
-    [(key=? key "right") (player2 'turn-right)]
-    [else wrld])
-  (cond
-    [(key=? key " ") (player1 'fire)])
-  (cond
-    [(key=? key "\r") (player2 'fire)])
-  )
-
+  (cond (menu-scrn (begin
+                     (cond ((and (key=? key "right") menu-p) (set! two-players #t))
+                           ((and (key=? key "left") menu-p)(set! two-players #f))
+                           ((key=? key "down") (cond (menu-c (begin
+                                                               (set! menu-c #f)
+                                                               (set! menu-p #t)))
+                                                     (menu-p (begin
+                                                               (set! menu-p #f)
+                                                               (set! menu-a #t)))
+                                                     (menu-a (begin
+                                                               (set! menu-c #t)
+                                                               (set! menu-a #f)))))
+                           ((key=? key "up") (cond (menu-c (begin
+                                                             (set! menu-c #f)
+                                                             (set! menu-a #t)))
+                                                   (menu-p (begin
+                                                             (set! menu-c #t)
+                                                             (set! menu-p #f)))
+                                                   (menu-a (begin
+                                                             (set! menu-p #t)
+                                                             (set! menu-a #f)))))
+                           ((key=? key "\r") (cond (menu-c (begin
+                                                             (set! menu-scrn #f)
+                                                             (set! ctrl-scrn #t)))
+                                                   (menu-a (begin
+                                                             (set! menu-scrn #f)
+                                                             (set! play-scrn #t))))))))
+        (ctrl-scrn (cond ((or (key=? key "\r") (key=? key "escape")) (begin
+                                                                       (set! menu-scrn #t)
+                                                                       (set! ctrl-scrn #f)))
+                         (else wrld)))
+        (play-scrn (begin
+                     (cond
+                       ((key=? key "w")(player1 'spd-up))
+                       ((key=? key "s") (player1 'slw-dwn)))
+                     (cond
+                       ((key=? key "a") (player1 'turn-left))
+                       ((key=? key "d") (player1 'turn-right)))
+                     (cond
+                       ((key=? key " ") (player1 'fire)))
+                     (cond
+                       ((key=? key "up") (player2 'spd-up))
+                       ((key=? key "down") (player2 'slw-dwn)))
+                     (cond
+                       ((key=? key "left") (player2 'turn-left))
+                       ((key=? key "right") (player2 'turn-right)))
+                     (cond
+                       ((key=? key "rcontrol") (player2 'fire)))))))
+; Handle key releases according to current screen
 (define (handle-key-release wrld key)
-  (cond
-    [(key=? key "w")(player1 'coast)]
-    [(key=? key "s") (player1 'coast)]
-    [else wrld])
-  (cond
-    [(key=? key "up") (player2 'coast)]
-    [(key=? key "down") (player2 'coast)]
-    [else wrld])
-  (cond
-    [(key=? key "a") (player1 'stop-turn)]
-    [(key=? key "d") (player1 'stop-turn)]
-    [else wrld])
-  (cond
-    [(key=? key "left") (player2 'stop-turn)]
-    [(key=? key "right") (player2 'stop-turn)]
-    [else wrld])
-  )
+  (cond (play-scrn
+         (begin
+           (cond
+             ((key=? key "w")(player1 'coast))
+             ((key=? key "s") (player1 'coast)))
+           (cond
+             ((key=? key "a") (player1 'stop-turn))
+             ((key=? key "d") (player1 'stop-turn)))
+           (cond
+             ((key=? key "up") (player2 'coast))
+             ((key=? key "down") (player2 'coast)))
+           (cond
+             ((key=? key "left") (player2 'stop-turn))
+             ((key=? key "right") (player2 'stop-turn)))))))
 
-;; Rendering Initialization
+;; Game Rendering Initialization
 (define objs-pos (map (λ (entity) (make-posn (entity 'x) (entity 'y))) (filter active? player-tanks)))
 (define objs-sprites (map (λ (entity) (entity 'sprite)) (filter active? player-tanks)))
 (define screen '())
 
 (define (rendergame x)
-  (set! objs-pos (map (λ (entity) (make-posn (entity 'x) (entity 'y))) (filter active? player-tanks)))
-  (set! objs-sprites (map (λ (entity) (entity 'sprite)) (filter active? player-tanks)))
-  (set! screen (place-images objs-sprites objs-pos background))
+  (cond (menu-scrn (begin
+                     (set! screen (game-scrn))))
+        (ctrl-scrn (begin
+                     (set! screen (control-scrn))))
+        (play-scrn (begin
+                     (set! objs-pos (map (λ (entity) (make-posn (entity 'x) (entity 'y))) (filter active? player-tanks)))
+                     (set! objs-sprites (map (λ (entity) (entity 'sprite)) (filter active? player-tanks)))
+                     (set! screen (place-images objs-sprites objs-pos background)))))
   screen)
 
-
-(define (game-start)
-  (begin (big-bang 0
-                   (on-tick update)
-                   (on-key handle-key-press)
-                   (on-release handle-key-release)
-                   (to-draw rendergame))))
-
-;; Render Start Screen Interface
-(define start-text (text "Press [space] to start" 24 "white"))
-(define titlescrn (overlay (bitmap/file (build-path ImgDir "Title_Text.png")) (bitmap/file (build-path ImgDir "Title_Splash.jpg"))))
-
-(define (change wrld key)
-  (cond ((key=? key " ") (game-start))
-        (else wrld)))
-
-(define (rendertitle x)
-  (underlay/xy titlescrn 600 820 start-text))
-
 (big-bang 0
-          (on-key change)
-          (to-draw rendertitle))  
+          (on-tick update)
+          (on-key handle-key-press)
+          (on-release handle-key-release)
+          (to-draw rendergame))
