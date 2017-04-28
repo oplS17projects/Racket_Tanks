@@ -10,9 +10,9 @@ Below is an outline of the various techniques that will be implemented in the de
 
 -Data Abstraction: Data will be abstracted into basic objects with similar factors, i.e. dimensions, speed, location, active status, and so on. This will allow objects like tanks, bullets, and enemies to be handled similarly.
 - Filtering: As objects are created, and destroyed, it will be necessary to ensure that objects that are no longer necessary are removed. This is one excellent way to use a filter to ensure that extraneous objects are deleted.
--Recursion: Updating the location information, and status of each of the objects will be most easily handled with recursive functions that will go through their relevant lists.
--Expression evaluation: As each of the objects move around the screen, their various maneuvers and collisions will be calculated using expression evaluation to determine changes.
--Metacircular evalutaion: To some extent a metacircular evaluator is created in this program, and is used within player and projectile objects as well as generic entites to define their respective elements. This is nut dissimilar to a class object in C or C++ (or any other object oriented language).
+- Recursion: Updating the location information, and status of each of the objects will be most easily handled with recursive functions that will go through their relevant lists.
+- Expression evaluation: As each of the objects move around the screen, their various maneuvers and collisions will be calculated using expression evaluation to determine changes.
+- Metacircular evalutaion: To some extent a metacircular evaluator is created in this program, and is used within player and projectile objects as well as generic entites to define their respective elements. This is nut dissimilar to a class object in C or C++ (or any other object oriented language).
 
 
 ### Data Sets or other Source Materials
@@ -52,12 +52,12 @@ Any objects within the achitecture that are crossed out were not successfully im
 ![Controls Menu](ctrl_capture.PNG)
 
 Jeremy's Objectives:
-Successfully implemented access to image files used for player tanks, enemies, background etc.
-Movement and rotation vectors are established to allow proper control and orientation of both tanks and bullets.
-Collisions between tanks and bullets are detected and destruction of impacted objects and objects that leave the screen is in place.
-Keyboard commands for movement, rotation, and fireing in place.
-Menu for number of players, and listing of controls in place.
-Redesign of display screen values so game runs in a single window, rather than opening a second window when the game starts successfully put into effect.
+- Successfully implemented access to image files used for player tanks, enemies, background etc.
+- Movement and rotation vectors are established to allow proper control and orientation of both tanks and bullets.
+- Collisions between tanks and bullets are detected and destruction of impacted objects and objects that leave the screen is in place.
+- Keyboard commands for movement, rotation, and fireing in place.
+- Menu for number of players, and listing of controls in place.
+- Redesign of display screen values so game runs in a single window, rather than opening a second window when the game starts successfully put into effect.
 
 Zheondre's Objectives: 
 Enemy implementations, level development, score board for health and ammunition. 
