@@ -148,7 +148,6 @@
                       (make-posn 80 885))
                 ctrl-splash))
                       
-
 ; General functions
 (define (deg-to-rad x)
   (inexact->exact (* x (/ pi 180))))
@@ -156,6 +155,7 @@
 ;define game entities
 (define projectiles '())
 (define player-tanks '())
+(define e-tanks '())
 
 ;;Entity constructor
 ; Sprite - image used for a particular object
@@ -168,8 +168,8 @@
   (define (set-x xpos) (set! pos (cons xpos (cdr pos))))
   (define (set-y ypos) (set! pos (cons (car pos) ypos)))
   (define (set-dir angle) (set! dir angle))
-  (define intact #t)
-  (define (destroy) (set! intact #f))
+  (define active #t)
+  (define (destroy) (set! active #f))
 
   (define (dispatch obj)
     (cond ((eq? obj 'sprite) sprite)
@@ -183,8 +183,8 @@
           ((eq? obj 'set-y) set-y)
           ((eq? obj 'dir) dir)
           ((eq? obj 'set-dir) set-dir)
-          ((eq? obj 'intact?) intact)
-          ((eq? obj 'destroy) (set! intact #f))
+          ((eq? obj 'intact?) active)
+          ((eq? obj 'destroy) (set! active #f))
           ((eq? obj 'solid) solid)
           ((eq? obj 'pnum) pnum)
           (else (begin (print "Unknown value") obj))))
@@ -378,7 +378,8 @@
                                                              (set! ctrl-scrn #t)))
                                                    (menu-a (begin
                                                              (set! menu-scrn #f)
-                                                             (set! play-scrn #t))))))))
+                                                             (set! play-scrn #t)
+                                                             (cond ((not two-players) (player2 'destroy))))))))))
         (ctrl-scrn (cond ((or (key=? key "\r") (key=? key "escape")) (begin
                                                                        (set! menu-scrn #t)
                                                                        (set! ctrl-scrn #f)))
@@ -392,14 +393,15 @@
                        ((key=? key "d") (player1 'turn-right)))
                      (cond
                        ((key=? key " ") (player1 'fire)))
-                     (cond
-                       ((key=? key "up") (player2 'spd-up))
-                       ((key=? key "down") (player2 'slw-dwn)))
-                     (cond
-                       ((key=? key "left") (player2 'turn-left))
-                       ((key=? key "right") (player2 'turn-right)))
-                     (cond
-                       ((key=? key "rcontrol") (player2 'fire)))))))
+                     (cond (two-players (begin
+                                          (cond
+                                            ((key=? key "up") (player2 'spd-up))
+                                            ((key=? key "down") (player2 'slw-dwn)))
+                                          (cond
+                                            ((key=? key "left") (player2 'turn-left))
+                                            ((key=? key "right") (player2 'turn-right)))
+                                          (cond
+                                            ((key=? key "rcontrol") (player2 'fire))))))))))
 ; Handle key releases according to current screen
 (define (handle-key-release wrld key)
   (cond (play-scrn
@@ -410,12 +412,13 @@
            (cond
              ((key=? key "a") (player1 'stop-turn))
              ((key=? key "d") (player1 'stop-turn)))
-           (cond
-             ((key=? key "up") (player2 'coast))
-             ((key=? key "down") (player2 'coast)))
-           (cond
-             ((key=? key "left") (player2 'stop-turn))
-             ((key=? key "right") (player2 'stop-turn)))))))
+           (cond (two-players (begin
+                                (cond
+                                  ((key=? key "up") (player2 'coast))
+                                  ((key=? key "down") (player2 'coast)))
+                                (cond
+                                  ((key=? key "left") (player2 'stop-turn))
+                                  ((key=? key "right") (player2 'stop-turn))))))))))
 
 ;; Game Rendering Initialization
 (define objs-pos (map (λ (entity) (make-posn (entity 'x) (entity 'y))) (filter active? player-tanks)))
