@@ -147,7 +147,7 @@
                       (make-posn 80 850)
                       (make-posn 80 885))
                 ctrl-splash))
-                      
+
 ; General functions
 (define (deg-to-rad x)
   (inexact->exact (* x (/ pi 180))))
@@ -170,7 +170,7 @@
   (define (set-dir angle) (set! dir angle))
   (define active #t)
   (define (destroy) (set! active #f))
-
+  
   (define (dispatch obj)
     (cond ((eq? obj 'sprite) sprite)
           ((eq? obj 'set-spr) set-spr)
@@ -202,8 +202,8 @@
   (define trn-l #f)
   (define trn-r #f)
   
-;; Movement procedures (updates sprite accordingly)
-
+  ;; Movement procedures (updates sprite accordingly)
+  
   (define (move-tank)
     (define (inbounds x y)
       (cond ((< x 0) (set! x (+ x WIDTH)))
@@ -220,8 +220,8 @@
   (define (accelerate)
     (cond ((< speed 10) (set! speed (+ speed 1))))
     (move-tank))
-    
-
+  
+  
   (define (decelerate)
     (cond ((> speed -10) (set! speed (- speed 1))))
     (move-tank))
@@ -230,19 +230,19 @@
     (cond ((< speed 0) (set! speed (+ speed 1)))
           ((> speed 0) (set! speed (- speed 1))))
     (move-tank))
-
+  
   (define (turn-right)
     (if (> (+ (tank 'dir) trn-spd) 360)
         ((tank 'set-dir) (- (+ (tank 'dir) trn-spd) 360))
         ((tank 'set-dir) (+ (tank 'dir) trn-spd)))
     ((tank 'set-spr) (* -1 trn-spd)))
-
+  
   (define (turn-left)
     (if (< (- (tank 'dir) trn-spd) 0)
         ((tank 'set-dir) (+ (- (tank 'dir) trn-spd) 360))
         ((tank 'set-dir) (- (tank 'dir) trn-spd)))
     ((tank 'set-spr) trn-spd))
-
+  
   (define (shoot)
     (set! projectiles (append projectiles (list (make-projectile (tank 'pnum))))))  
   
@@ -252,7 +252,7 @@
           ((and (not spd-up) (not slw-dwn)) (coast)))
     (cond ((and trn-l (not trn-r)) (turn-left))
           ((and (not trn-l) trn-r) (turn-right))))
-
+  
   (define (dispatch obj)
     (cond ((eq? obj 'update) update)      
           ((eq? obj 'spd-up) (set! spd-up #t) (set! slw-dwn #f))
@@ -280,9 +280,9 @@
              (set! angle (player2 'dir))))
   (define speed 20)
   (define bullet (make-entity (rotate angle bullet-sprite) #t pos angle owner))
-
-;; Movement Procedures for Projectiles
-
+  
+  ;; Movement Procedures for Projectiles
+  
   (define (move-bullet)
     ((bullet 'set-x) (inexact->exact (round (+ (bullet 'x)
                                                (* speed (cos (deg-to-rad (bullet 'dir))))))))
@@ -291,7 +291,7 @@
   (define (dispatch x)
     (cond ((eq? x 'update) (move-bullet))
           (else (bullet x))))
-
+  
   dispatch)
 
 ;; Determine if an object is still active or is destroyed
