@@ -3,7 +3,7 @@
 ### Statement
 A classic top-down shooting game which will  use recursion, filtering, object orientation, and other techniques to control the action.
 
-![Title Screen](title_capture.png)
+![Title Screen](title_capture.PNG)
 
 ### Analysis
 Below is an outline of the various techniques that will be implemented in the design of the game:
@@ -29,7 +29,7 @@ Tank sprites courtesy of user Zironid_n at www.opengameart.org
 
 We are presenting a top-down tank combat game that uses sprites, and calculations to determine object movement and interaction.
 
-![Combat Sample](combat_capture.png)
+![Combat Sample](combat_capture.PNG)
 
 ### Results
 
@@ -49,7 +49,7 @@ Any objects within the achitecture that are crossed out were not successfully im
 
 ## Objectives Achieved
 
-![Controls Menu](ctrl_capture.png)
+![Controls Menu](ctrl_capture.PNG)
 
 Jeremy's Objectives:
 Successfully implemented access to image files used for player tanks, enemies, background etc.
