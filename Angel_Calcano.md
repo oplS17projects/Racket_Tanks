@@ -13,7 +13,7 @@ The initial objective on my part was to design enemy object, draw them to the sc
 I thought it was interesting because i had to sit back and think of how things should react over time. 
 # Libraries Used
 
-The game uses 3 libraries as follows:
+The game uses 2 libraries as follows:
 
 (require 2htdp/image)
 (require 2htdp/universe)
