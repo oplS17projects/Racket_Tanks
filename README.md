@@ -11,6 +11,7 @@ Below is an outline of the various techniques that will be implemented in the de
 -Data Abstraction: Data will be abstracted into basic objects with similar factors, i.e. dimensions, speed, location, active status, and so on. This will allow objects like tanks, bullets, and enemies to be handled similarly.
 - Filtering: As objects are created, and destroyed, it will be necessary to ensure that objects that are no longer necessary are removed. This is one excellent way to use a filter to ensure that extraneous objects are deleted.
 - Recursion: Updating the location information, and status of each of the objects will be most easily handled with recursive functions that will go through their relevant lists.
+-Mapping: Mapping will be used to check the amount of time that was passed through all of the enemy objects, a certain time will be set and then each enemy will more a certain time frame before either another random move is made or continous movement toward the players. 
 - Expression evaluation: As each of the objects move around the screen, their various maneuvers and collisions will be calculated using expression evaluation to determine changes.
 - Metacircular evalutaion: To some extent a metacircular evaluator is created in this program, and is used within player and projectile objects as well as generic entites to define their respective elements. This is nut dissimilar to a class object in C or C++ (or any other object oriented language).
 
