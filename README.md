@@ -60,5 +60,10 @@ Jeremy's Objectives:
 - Redesign of display screen values so game runs in a single window, rather than opening a second window when the game starts successfully put into effect.
 
 Zheondre's Objectives: 
+- Designed enemy class
+- For each level the difficulty increased by having more enemies
+- Need to add score board, health, and ammuniczation. 
+- Designed rancom walk for enemies when they are not alerted
+
 Enemy implementations, level development, score board for health and ammunition. 
 Try to add pausing, level check points, reset, and game over features. Have diffifulty settings working.
