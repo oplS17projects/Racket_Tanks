@@ -148,7 +148,8 @@ I was going to use nested maps to go through the list of enemy objects if the en
 	  (cons (make-etank  E-sprite (cons (random 1 800) (random 1 900)) (random 0 360) 0)  (CreateEnemies (- amount 1) ))
 	 )
 )
- #5 presentation link 
-     https://www.youtube.com/watch?v=IeLkWO4rtTI&feature=youtu.be
+
 ```
 
+ ##5 presentation link 
+     https://www.youtube.com/watch?v=IeLkWO4rtTI&feature=youtu.be
