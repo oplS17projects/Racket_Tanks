@@ -36,7 +36,7 @@
 ;		 yes			
 ;			is clock running && time > 0  ? 
 ;			  yes
-;				\\wait until time frame is complete
+;				;wait until time frame is complete
 ;				;;if time <= 1 
 ;					;set clock running value false
 ;				decrease time 
@@ -53,7 +53,7 @@
 
 
 (define (make-etank E-sprite pos angle pnum)
-	//include player class
+	;include player class
 	(define (make-player sprite pos angle pnum)) 
 
 	(define clockRunning #f) 
@@ -62,7 +62,7 @@
 	(define health 5)
 	(define alert #f)
   
-	//Object's Accessor 
+	;Object's Accessor 
 	(define (getter mes) 
 		(cond 
 			((eq? mes 'alive?) alive)  
@@ -73,7 +73,7 @@
 		)
 	)
   
-	//Object's Mutator
+	;Object's Mutator
 	(define (setter mes) 
 		(cond 
 			((eq? mes 'die) (set! alive #f))
