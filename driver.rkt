@@ -80,7 +80,7 @@
 (define (CreateEnemies amount)  
 	 (if (< amount 1)
 	   '() 
-	  (cons (make-etank  E-sprite (random 1 800) (random 1 900) (random 0 360) 0)  (CreateEnemies (- amount 1) ))
+	  (cons (make-etank  E-sprite (cons (random 1 800) (random 1 900)) (random 0 360) 0)  (CreateEnemies (- amount 1) ))
 	 )
 )
 
