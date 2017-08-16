@@ -12,7 +12,7 @@
 ;		get location 
 	;	fire 
 		
-(define randomMovement( Enemies )  
+(define ( randomMovement Enemies )  
 	(map  
 		(lamnda (bad)
 			;is enemy alive?
