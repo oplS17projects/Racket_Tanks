@@ -38,19 +38,12 @@ The structure of the enemy class
 	(define alert #f)
   
 	//Object's Accessor 
-	(define (getter mes) 
+	(lambda (mes) 
 		(cond 
 			((eq? mes 'alive?) alive)  
 			((eq? mes 'clockRunning?) clockRunning)
 			((eq? mes 'health?) health)  
 			((eq? mes 'time?) time)	
-			(else mes)
-		)
-	)
-  
-	//Object's Mutator
-	(define (setter mes) 
-		(cond 
 			((eq? mes 'die) (set! alive #f))
 			((eq? mes 'alive) (set! alive #t))
 			((eq? mes 'setTime) setTime_Speed)
@@ -87,7 +80,7 @@ Each tank enemy will have the E-sprite, different enemies in the future will hav
 
 With time running out I was not able to finish writing the random movement method for the enemies so I will place pseudocode of how I wanted to work and how I wanted to write it in racket. 
 ```
-(define randomMovement( Enemies )  
+(define (randomMovement Enemies)  
 	(map  
 		(lamnda (bad)
 			;is enemy alive?
@@ -118,8 +111,8 @@ Map will be used to go through the list of enemy objects if the enemy was dead I
  ```racket
  (define (CreateEnemies amount)  
 	 (if (< amount 1)
-	   ()' 
-	  (cons (make-etank  E-sprite (cons (random 1 800) (random 1 900)) (random 0 360) 0)  (CreateEnemies (- amount 1) ))
+	   '() 
+	  (cons (make-etank E-sprite (cons (random 1 800) (random 1 900)) (random 0 360) 0)  (CreateEnemies (- amount 1) ))
 	 )
 )
 
